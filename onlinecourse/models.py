@@ -1,3 +1,4 @@
+from pyexpat import model
 import sys
 from django.utils.timezone import now
 try:
@@ -64,8 +65,7 @@ class Course(models.Model):
     is_enrolled = False
 
     def __str__(self):
-        return "Name: " + self.name + "," + \
-               "Description: " + self.description
+        return  self.name 
 
 
 # Lesson model
@@ -75,6 +75,8 @@ class Lesson(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     content = models.TextField()
 
+    def __str__(self):
+        return  self.title
 
 # Enrollment model
 # <HINT> Once a user enrolled a class, an enrollment entry should be created between the user and course
@@ -95,12 +97,65 @@ class Enrollment(models.Model):
     rating = models.FloatField(default=5.0)
 
 
+
+
+class Question(models.Model):
+
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    Lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
+    question_text = models.CharField(max_length=200)
+    
+    mark =  models.IntegerField(default=1)
+
+
+    def __str__(self):
+        return  self.question_text 
+
+    def is_get_score(self, selected_ids):
+        all_answers = self.choice_set.filter(is_correct=True).count()
+        selected_correct = self.choice_set.filter(is_correct=True, id__in=selected_ids).count()
+        if all_answers == selected_correct:
+            return True
+        else:
+            return False
+
+   
+
+class Choice (models.Model ):
+
+    course = models.ForeignKey(Course, default=1, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    choice_text = models.CharField(max_length=255 , default=1)
+    is_correct = models.BooleanField(default=False)
+
+    
+    def __str__(self):
+        return  self.choice_text
+
+
+
+
+# creating Quizzes model
+class Quizzes(models.Model):
+    title = models.CharField(max_length=255)
+    course = models.ForeignKey(Course , default=1, on_delete=models.DO_NOTHING)
+    question = models.ForeignKey(Question, on_delete=models.DO_NOTHING)
+    
+    
+    title = models.CharField(max_length=255)
+
+    def __str__(self):
+        return  self.title
+
+
+
 # <HINT> Create a Question Model with:
     # Used to persist question content for a course
     # Has a One-To-Many (or Many-To-Many if you want to reuse questions) relationship with course
     # Has a grade point for each question
     # Has question content
     # Other fields and methods you would like to design
+
 #class Question(models.Model):
     # Foreign key to lesson
     # question text
@@ -114,6 +169,11 @@ class Enrollment(models.Model):
     #        return True
     #    else:
     #        return False
+
+
+
+
+
 
 
 #  <HINT> Create a Choice Model with:
