@@ -1,3 +1,4 @@
+from random import choices
 from django.contrib import admin
 # <HINT> Import any new Models here
 from .models import *
@@ -7,7 +8,7 @@ from .models import *
 
 class LessonInline(admin.StackedInline):
     model = Lesson
-    extra = 5
+    extra = 3
 
 class LessonAdmin(admin.ModelAdmin):
     list_display = ['title']
@@ -28,22 +29,18 @@ class ChoiceAdmin(admin.ModelAdmin):
     list_display = ['question', 'choice_text','is_correct']
     
 
-class QuestionInline(admin.TabularInline):
-    model = Question
-    extra = 3
 
 class QuestionAdmin(admin.ModelAdmin):
 
-     inlines = [ChoiceInline]
-     list_display = ('course','Lesson','question_text','mark')
+    inlines = [ChoiceInline]
+    list_display = ('course','Lesson','question_text','mark')
 
-class QuizzesAdmin(admin.ModelAdmin):
- 
-    list_display = ('title','course','question')
+
+
 
 
 # <HINT> Register Question and Choice models here
-admin.site.register(Quizzes ,QuizzesAdmin )
+
 admin.site.register(Question ,QuestionAdmin )
 admin.site.register(Choice , ChoiceAdmin )
 admin.site.register(Course, CourseAdmin)

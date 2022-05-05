@@ -1,5 +1,6 @@
 from pyexpat import model
 import sys
+from turtle import title
 from django.utils.timezone import now
 try:
     from django.db import models
@@ -96,7 +97,7 @@ class Enrollment(models.Model):
     mode = models.CharField(max_length=5, choices=COURSE_MODES, default=AUDIT)
     rating = models.FloatField(default=5.0)
 
-
+   
 
 
 class Question(models.Model):
@@ -122,10 +123,10 @@ class Question(models.Model):
    
 
 class Choice (models.Model ):
-
-    course = models.ForeignKey(Course, default=1, on_delete=models.CASCADE)
+   
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    choice_text = models.CharField(max_length=255 , default=1)
+    choice_text = models.CharField(max_length=255 )
     is_correct = models.BooleanField(default=False)
 
     
@@ -135,17 +136,14 @@ class Choice (models.Model ):
 
 
 
-# creating Quizzes model
-class Quizzes(models.Model):
-    title = models.CharField(max_length=255)
-    course = models.ForeignKey(Course , default=1, on_delete=models.DO_NOTHING)
-    question = models.ForeignKey(Question, on_delete=models.DO_NOTHING)
-    
-    
-    title = models.CharField(max_length=255)
+# creating Submission model
 
-    def __str__(self):
-        return  self.title
+    
+    
+
+   
+
+
 
 
 
