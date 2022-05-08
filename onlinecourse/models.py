@@ -120,7 +120,7 @@ class Question(models.Model):
         else:
             return False
 
-   
+  
 
 class Choice (models.Model ):
    
@@ -133,12 +133,13 @@ class Choice (models.Model ):
     def __str__(self):
         return  self.choice_text
 
-
-
-
+class Submission(models.Model):
+          
+         enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
+         choices = models.CharField(max_length=255 )
 # creating Submission model
 
-    
+   
     
 
    

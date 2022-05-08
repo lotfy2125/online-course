@@ -40,7 +40,7 @@ class QuestionAdmin(admin.ModelAdmin):
 
 
 # <HINT> Register Question and Choice models here
-
+admin.site.register(Submission)
 admin.site.register(Question ,QuestionAdmin )
 admin.site.register(Choice , ChoiceAdmin )
 admin.site.register(Course, CourseAdmin)

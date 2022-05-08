@@ -54,7 +54,8 @@
                 </div>
                 <div id="exam" class="collapse">
                     {% csrf_token %}
-                    <form id="questionform" action="point to a submit view" method="post">
+                    <form id="questionform" action="{% url 'onlinecourse:submit' %}" method="post">
+                        {% csrf_token %}
                         {% for question in course.question_set.all %}
                             <div class="card mt-1">
                                 <div class="card-header"><h5>{{ question.question_text}}</h5></div>
@@ -74,7 +75,7 @@
                            
                             </div>
                             <div class="form-group" style="display: True; " >
-                                <b>The correct answer</b> : 
+                                  <b>The correct answer</b> : 
                                 {% for choice in question.choice_set.all%}
                                     <div class="form-check">
                                         <label class="form-check-label">
